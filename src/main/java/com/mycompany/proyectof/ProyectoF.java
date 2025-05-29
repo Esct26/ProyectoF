@@ -58,7 +58,7 @@ public class ProyectoF {
         
         escribir("Cupones.csv",
                 """
-                1234-A|10.0|2025-08-21|Monto F|Disponible
+                1234-A|10.0|2025-08-21|Porcentage|Disponible
                 """);
         
         Login l = new Login();

@@ -78,7 +78,7 @@ public class V_Ventas extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(this, "Cupon aplicado");
                                 PrecioU.setText(String.valueOf(l.precio));
                                 if(c.tipo.equals("Porcentage") && d == 0){
-                                    Double descuento = l.precio - (l.precio*(c.valor/100));
+                                    Double descuento = (l.precio*(c.valor/100));
                                     PrecioT.setText(String.valueOf((l.precio * cant)-descuento));
                                     c.disponible = "Usados";
                                     l.stock -= cant;
