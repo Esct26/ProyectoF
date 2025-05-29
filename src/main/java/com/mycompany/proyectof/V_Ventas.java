@@ -26,6 +26,7 @@ public class V_Ventas extends javax.swing.JFrame {
         initComponents();
         usuarioActual = usuario;
         Items();
+        Cupones();
         pTabla();
     }
     
@@ -51,17 +52,57 @@ public class V_Ventas extends javax.swing.JFrame {
         }
     }
     
+    private void Cupones(){
+        jComboBox2.removeAllItems();
+        jComboBox2.addItem("");
+        for(int i = 0; i<ProyectoF.cupones.size(); i++){
+            Cupon c = ProyectoF.cupones.get(i);
+            jComboBox2.addItem(c.codigo);
+        }
+    }
+    
     private void Precios(){
+        String cod = jComboBox2.getSelectedItem().toString();
         String lib = jComboBox1.getSelectedItem().toString();
         int cant = Integer.parseInt(TxTF_Cantidad.getText());
         int stock = 0;
+        int d = 0;
         for(int i = 0; i<ProyectoF.libros.size(); i++){
             Libro l = ProyectoF.libros.get(i);
             if(l.titulo.equals(lib) && l.stock >= cant){
                 stock = 1;
-                PrecioU.setText(String.valueOf(l.precio));
-                PrecioT.setText(String.valueOf(l.precio * cant));
-                l.stock -= cant;
+                if(cod != ("")){
+                    if (JOptionPane.showConfirmDialog(this, "¿Desea aplicar el Cupon?") == 0) {
+                        for(Cupon c: ProyectoF.cupones){
+                            if(c.codigo.equals(cod) && c.disponible.equals("Usados") == false && d == 0){
+                                JOptionPane.showMessageDialog(this, "Cupon aplicado");
+                                PrecioU.setText(String.valueOf(l.precio));
+                                if(c.tipo.equals("Porcentage") && d == 0){
+                                    Double descuento = l.precio - (l.precio*(c.valor/100));
+                                    PrecioT.setText(String.valueOf((l.precio * cant)-descuento));
+                                    c.disponible = "Usados";
+                                    l.stock -= cant;
+                                }else if(c.tipo.equals("Monto F") && d == 0){
+                                    PrecioT.setText(String.valueOf((l.precio * cant)-c.valor));
+                                    c.disponible = "Usados";
+                                    l.stock -= cant;
+                                }
+                                d = 1;
+                            }else{
+                                JOptionPane.showMessageDialog(this, "Cupon no disponible");
+                                PrecioU.setText(String.valueOf(l.precio));
+                                PrecioT.setText(String.valueOf(l.precio * cant));
+                                l.stock -= cant;
+                            }
+                        }
+                    }
+                    
+                }else{
+                    PrecioU.setText(String.valueOf(l.precio));
+                    PrecioT.setText(String.valueOf(l.precio * cant));
+                    l.stock -= cant;
+                }
+                
             }else if(l.titulo.equals(lib) && stock == 0 && l.stock < cant){
                 stock = 1;
                 PrecioU.setText("---");
@@ -113,6 +154,8 @@ public class V_Ventas extends javax.swing.JFrame {
         Añadir = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -184,6 +227,10 @@ public class V_Ventas extends javax.swing.JFrame {
 
         jLabel10.setText("----");
 
+        jLabel11.setText("Cupon:");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -208,15 +255,19 @@ public class V_Ventas extends javax.swing.JFrame {
                                     .addComponent(jTextField4)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Calcular)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel11))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(TxTF_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(Calcular))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(TxTF_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(Añadir)
@@ -277,11 +328,15 @@ public class V_Ventas extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(TxTF_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))))
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Calcular)
                     .addComponent(Añadir))
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -355,8 +410,10 @@ public class V_Ventas extends javax.swing.JFrame {
     private javax.swing.JLabel PrecioU;
     private javax.swing.JTextField TxTF_Cantidad;
     private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

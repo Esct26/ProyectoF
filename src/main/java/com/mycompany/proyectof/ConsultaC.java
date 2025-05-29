@@ -43,7 +43,7 @@ public class ConsultaC extends javax.swing.JFrame {
     }
     
     private void pTabla(){
-        String encabezado[] = {"Codigo","Valor","Fecha V.", "Tipo"};
+        String encabezado[] = {"Codigo","Valor","Fecha V.", "Tipo", "Disponiblilidad"};
         DefaultTableModel t = new DefaultTableModel(encabezado,ProyectoF.cupones.size());
         jTable1.setModel(t);
         TableModel tabla = jTable1.getModel();
@@ -54,6 +54,7 @@ public class ConsultaC extends javax.swing.JFrame {
             tabla.setValueAt(c.valor, i, 1);
             tabla.setValueAt(c.vencimineto, i, 2);
             tabla.setValueAt(c.tipo, i, 3);
+            tabla.setValueAt(c.disponible, i, 4);
         }
     }
     
@@ -78,6 +79,7 @@ public class ConsultaC extends javax.swing.JFrame {
                 c.valor = Double.parseDouble(cupon[1].trim());
                 c.vencimineto = cupon[2].trim();
                 c.tipo = cupon[3].trim();
+                c.disponible = cupon[4].trim();
                 contenido.add(c);
                 linea = bloque.readLine();
             }
@@ -320,6 +322,7 @@ public class ConsultaC extends javax.swing.JFrame {
             cup.valor = c.valor;
             cup.vencimineto = (c.vencimineto);
             cup.tipo = c.tipo;
+            cup.disponible = c.disponible;
             ProyectoF.cupones.add(cup);
             });
             pTabla();

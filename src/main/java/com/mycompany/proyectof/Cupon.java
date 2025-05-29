@@ -12,4 +12,5 @@ public class Cupon {
     public double valor;
     public String vencimineto;
     public String tipo;
+    public String disponible;
 }

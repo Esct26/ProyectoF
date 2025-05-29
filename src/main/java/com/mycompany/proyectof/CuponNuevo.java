@@ -174,6 +174,7 @@ public class CuponNuevo extends javax.swing.JFrame {
         
         d = LocalDate.parse(jTextField3.getText(), formato());
         c.vencimineto = d.toString();
+        c.disponible = "Disponible";
         ProyectoF.cupones.add(c);
         JOptionPane.showMessageDialog(this, "Cupon creado exitosamente");
     }//GEN-LAST:event_CrearActionPerformed
