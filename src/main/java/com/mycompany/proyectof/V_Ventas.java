@@ -4,10 +4,13 @@
  */
 package com.mycompany.proyectof;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.util.Date;
 
 /**
  *
@@ -28,6 +31,20 @@ public class V_Ventas extends javax.swing.JFrame {
         Items();
         Cupones();
         pTabla();
+    }
+    
+    private boolean vencimiento(String fecha1){
+        try {
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            Date fv = formato.parse(fecha1);
+            Date fa = new Date();
+                if (fa.after(fv)) {
+                    return true;
+                }
+        }catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
     
     private void pTabla(){
@@ -74,7 +91,8 @@ public class V_Ventas extends javax.swing.JFrame {
                 if(cod != ("")){
                     if (JOptionPane.showConfirmDialog(this, "¿Desea aplicar el Cupon?") == 0) {
                         for(Cupon c: ProyectoF.cupones){
-                            if(c.codigo.equals(cod) && c.disponible.equals("Usados") == false && d == 0){
+                            vencimiento(c.vencimineto);
+                            if(c.codigo.equals(cod) && c.disponible.equals("Usado") == false && d == 0 && vencimiento(c.vencimineto) != true){
                                 JOptionPane.showMessageDialog(this, "Cupon aplicado");
                                 PrecioU.setText(String.valueOf(l.precio));
                                 if(c.tipo.equals("Porcentage") && d == 0){
@@ -84,12 +102,14 @@ public class V_Ventas extends javax.swing.JFrame {
                                     l.stock -= cant;
                                 }else if(c.tipo.equals("Monto F") && d == 0){
                                     PrecioT.setText(String.valueOf((l.precio * cant)-c.valor));
-                                    c.disponible = "Usados";
+                                    c.disponible = "Usado";
                                     l.stock -= cant;
                                 }
                                 d = 1;
-                            }else{
+                            }else if(d == 0 && vencimiento(c.vencimineto) == true){
+                                d = 1;
                                 JOptionPane.showMessageDialog(this, "Cupon no disponible");
+                                c.disponible = "Usado";
                                 PrecioU.setText(String.valueOf(l.precio));
                                 PrecioT.setText(String.valueOf(l.precio * cant));
                                 l.stock -= cant;
