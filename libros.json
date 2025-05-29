@@ -1,0 +1,11 @@
+[
+{
+"libro": {
+"titulo": "La sombra",
+"autor": "James",
+"genero": "Thriller",
+"precio": 19.99,
+"cantidad": 5
+}
+}
+]
