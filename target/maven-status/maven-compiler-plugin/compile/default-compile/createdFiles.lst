@@ -9,6 +9,7 @@ com/mycompany/proyectof/CuponNuevo$3.class
 com/mycompany/proyectof/ProyectoF.class
 com/mycompany/proyectof/ConsultarP.class
 com/mycompany/proyectof/ConsultaL.class
+com/mycompany/proyectof/ConsultaLV.class
 com/mycompany/proyectof/Usuario.class
 com/mycompany/proyectof/V_Vendedor$5.class
 com/mycompany/proyectof/LibroNuevo$1.class
@@ -49,10 +50,10 @@ com/mycompany/proyectof/Login$1.class
 com/mycompany/proyectof/CuponNuevo$2.class
 com/mycompany/proyectof/V_Admin$5.class
 com/mycompany/proyectof/V_Admin$2.class
-com/mycompany/proyectof/V_Ventas$4.class
 com/mycompany/proyectof/ConsultaU$4.class
 com/mycompany/proyectof/ConsultaC$5.class
 com/mycompany/proyectof/ConsultaL$2.class
+com/mycompany/proyectof/ConsultaLV$1.class
 com/mycompany/proyectof/LibroNuevo.class
 com/mycompany/proyectof/ConsultarV.class
 com/mycompany/proyectof/V_Admin$9.class
@@ -65,6 +66,7 @@ com/mycompany/proyectof/V_Vendedor$4.class
 com/mycompany/proyectof/V_Ventas$1.class
 com/mycompany/proyectof/ConsultaC$2.class
 com/mycompany/proyectof/ConsultaU.class
+com/mycompany/proyectof/V_Admin$10.class
 com/mycompany/proyectof/ConsultarV$2.class
 com/mycompany/proyectof/ConsultaL$3.class
 com/mycompany/proyectof/UsuarioNuevo$3.class

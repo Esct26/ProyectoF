@@ -31,13 +31,13 @@ public class ConsultarV extends javax.swing.JFrame {
         
         for(int i = 0; i < ProyectoF.ventas.size(); i++){
             Venta v = ProyectoF.ventas.get(i);
-            tabla.setValueAt(v.nit, i, 0);
-            tabla.setValueAt(v.nombre, i, 1);
-            tabla.setValueAt(v.direccion, i, 2);
-            tabla.setValueAt(v.vendedor, i, 3);
-            tabla.setValueAt(v.total, i, 4);
-            tabla.setValueAt(v.totalSinIva, i, 5);
-            tabla.setValueAt(v.fecha, i, 6);
+            tabla.setValueAt(v.getNit(), i, 0);
+            tabla.setValueAt(v.getNombre(), i, 1);
+            tabla.setValueAt(v.getDireccion(), i, 2);
+            tabla.setValueAt(v.getVendedor(), i, 3);
+            tabla.setValueAt(v.getTotal(), i, 4);
+            tabla.setValueAt(v.getTotalSinIva(), i, 5);
+            tabla.setValueAt(v.getFecha(), i, 6);
         }
     }
 
@@ -182,12 +182,13 @@ public class ConsultarV extends javax.swing.JFrame {
                     .addComponent(Eliminar)
                     .addComponent(Modificar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -232,25 +233,25 @@ public class ConsultarV extends javax.swing.JFrame {
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
         // TODO add your handling code here:
         venta = ProyectoF.ventas.get(jTable1.getSelectedRow());
-        jTextField1.setText(venta.nit);
-        jTextField2.setText(venta.nombre);
-        jTextField3.setText(venta.direccion);
-        jTextField4.setText(venta.vendedor);
-        jTextField5.setText(String.valueOf(venta.total));
-        jTextField6.setText(String.valueOf(venta.totalSinIva));
-        jTextField7.setText(venta.fecha);
+        jTextField1.setText(venta.getNit());
+        jTextField2.setText(venta.getNombre());
+        jTextField3.setText(venta.getDireccion());
+        jTextField4.setText(venta.getVendedor());
+        jTextField5.setText(String.valueOf(venta.getTotal()));
+        jTextField6.setText(String.valueOf(venta.getTotalSinIva()));
+        jTextField7.setText(venta.getFecha());
     }//GEN-LAST:event_ModificarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         if(venta != null){
-            venta.nit = jTextField1.getText();
-            venta.nombre = jTextField2.getText();
-            venta.direccion = jTextField3.getText();
-            venta.vendedor = jTextField4.getText();
-            venta.total = Double.parseDouble(jTextField5.getText());
-            venta.totalSinIva = Double.parseDouble(jTextField6.getText());
-            venta.fecha = jTextField7.getText();
+            venta.setNit(jTextField1.getText());
+            venta.setNombre(jTextField2.getText());
+            venta.setDireccion(jTextField3.getText());
+            venta.setVendedor(jTextField4.getText());
+            venta.setTotal(Double.parseDouble(jTextField5.getText()));
+            venta.setTotalSinIva(Double.parseDouble(jTextField6.getText()));
+            venta.setFecha(jTextField7.getText());
             pTabla();
             JOptionPane.showMessageDialog(this, "Venta modificada exitosamente");
         }

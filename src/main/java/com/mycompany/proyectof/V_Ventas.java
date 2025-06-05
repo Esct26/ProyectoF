@@ -20,9 +20,11 @@ public class V_Ventas extends javax.swing.JFrame {
 
     public Usuario usuarioActual;
     public Venta ventaActual = new Venta();
-    
+    public Cupon cuponActual = new Cupon();
+
     /**
      * Creates new form Ventas
+     *
      * @param usuario
      */
     public V_Ventas(Usuario usuario) {
@@ -31,99 +33,100 @@ public class V_Ventas extends javax.swing.JFrame {
         Items();
         Cupones();
         pTabla();
+        Añadir.setVisible(false);
     }
-    
-    private boolean vencimiento(String fecha1){
+
+    private boolean vencimiento(String fecha1) {
         try {
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             Date fv = formato.parse(fecha1);
             Date fa = new Date();
-                if (fa.after(fv)) {
-                    return true;
-                }
-        }catch (ParseException ex) {
+            if (fa.after(fv)) {
+                return true;
+            }
+        } catch (ParseException ex) {
             ex.printStackTrace();
         }
         return false;
     }
-    
-    private void pTabla(){
-        String encabezado[] = {"Titulo","Cantidad","Subtotal"};
-        DefaultTableModel t = new DefaultTableModel(encabezado,ventaActual.librosV.size());
+
+    private void pTabla() {
+        String encabezado[] = {"Titulo", "Cantidad", "Subtotal"};
+        DefaultTableModel t = new DefaultTableModel(encabezado, ventaActual.getLibrosV().size());
         jTable1.setModel(t);
         TableModel tabla = jTable1.getModel();
-        
-        for(int i = 0; i<ventaActual.librosV.size(); i++){
-            LibroV lv = ventaActual.librosV.get(i);
-            tabla.setValueAt(lv.titulo, i, 0);
-            tabla.setValueAt(lv.cantidad, i, 1);
-            tabla.setValueAt(lv.subtotal, i, 2);
+
+        for (int i = 0; i < ventaActual.getLibrosV().size(); i++) {
+            LibroV lv = ventaActual.getLibrosV().get(i);
+            tabla.setValueAt(lv.getTitulo(), i, 0);
+            tabla.setValueAt(lv.getCantidad(), i, 1);
+            tabla.setValueAt(lv.getSubtotal(), i, 2);
         }
     }
-    
-    private void Items(){
+
+    private void Items() {
         jComboBox1.removeAllItems();
-        for(int i = 0; i<ProyectoF.libros.size(); i++){
+        for (int i = 0; i < ProyectoF.libros.size(); i++) {
             Libro l = ProyectoF.libros.get(i);
-            jComboBox1.addItem(l.titulo);
+            jComboBox1.addItem(l.getTitulo());
         }
     }
-    
-    private void Cupones(){
+
+    private void Cupones() {
         jComboBox2.removeAllItems();
         jComboBox2.addItem("");
-        for(int i = 0; i<ProyectoF.cupones.size(); i++){
+        for (int i = 0; i < ProyectoF.cupones.size(); i++) {
             Cupon c = ProyectoF.cupones.get(i);
-            jComboBox2.addItem(c.codigo);
+            jComboBox2.addItem(c.getCodigo());
         }
     }
-    
-    private void Precios(){
+
+    private void Precios() {
         String cod = jComboBox2.getSelectedItem().toString();
         String lib = jComboBox1.getSelectedItem().toString();
         int cant = Integer.parseInt(TxTF_Cantidad.getText());
         int stock = 0;
         int d = 0;
-        for(int i = 0; i<ProyectoF.libros.size(); i++){
+        for (int i = 0; i < ProyectoF.libros.size(); i++) {
             Libro l = ProyectoF.libros.get(i);
-            if(l.titulo.equals(lib) && l.stock >= cant){
+            if (l.getTitulo().equals(lib) && l.getStock() >= cant) {
                 stock = 1;
-                if(cod != ("")){
+                if (cod != ("")) {
                     if (JOptionPane.showConfirmDialog(this, "¿Desea aplicar el Cupon?") == 0) {
-                        for(Cupon c: ProyectoF.cupones){
-                            vencimiento(c.vencimineto);
-                            if(c.codigo.equals(cod) && c.disponible.equals("Usado") == false && d == 0 && vencimiento(c.vencimineto) != true){
+                        for (Cupon c : ProyectoF.cupones) {
+                            vencimiento(c.getVencimineto());
+                            if (c.getCodigo().equals(cod) && c.getDisponible().equals("Usado") == false && d == 0 && vencimiento(c.getVencimineto()) != true) {
                                 JOptionPane.showMessageDialog(this, "Cupon aplicado");
-                                PrecioU.setText(String.valueOf(l.precio));
-                                if(c.tipo.equals("Porcentage") && d == 0){
-                                    Double descuento = (l.precio*(c.valor/100));
-                                    PrecioT.setText(String.valueOf((l.precio * cant)-descuento));
-                                    c.disponible = "Usados";
-                                    l.stock -= cant;
-                                }else if(c.tipo.equals("Monto F") && d == 0){
-                                    PrecioT.setText(String.valueOf((l.precio * cant)-c.valor));
-                                    c.disponible = "Usado";
-                                    l.stock -= cant;
+                                PrecioU.setText(String.valueOf(l.getPrecio()));
+                                if (c.getTipo().equals("Porcentage") && d == 0) {
+                                    Double descuento = (l.getPrecio() * (c.getValor() / 100));
+                                    PrecioT.setText(String.valueOf((l.getPrecio() * cant) - descuento));
+                                    c.setDisponible("Usados");
+                                    l.setStock(l.getStock() - cant);
+                                } else if (c.getTipo().equals("Monto F") && d == 0) {
+                                    PrecioT.setText(String.valueOf((l.getPrecio() * cant) - c.getValor()));
+                                    c.setDisponible("Usado");
+                                    l.setStock(l.getStock() - cant);
                                 }
                                 d = 1;
-                            }else if(d == 0 && vencimiento(c.vencimineto) == true){
+                            } else if (d == 0 && vencimiento(c.getVencimineto()) == true) {
                                 d = 1;
                                 JOptionPane.showMessageDialog(this, "Cupon no disponible");
-                                c.disponible = "Usado";
-                                PrecioU.setText(String.valueOf(l.precio));
-                                PrecioT.setText(String.valueOf(l.precio * cant));
-                                l.stock -= cant;
+                                c.setDisponible("Usado");
+                                PrecioU.setText(String.valueOf(l.getPrecio()));
+                                PrecioT.setText(String.valueOf(l.getPrecio() * cant));
+                                l.setStock(l.getStock() - cant);
                             }
                         }
                     }
-                    
-                }else{
-                    PrecioU.setText(String.valueOf(l.precio));
-                    PrecioT.setText(String.valueOf(l.precio * cant));
-                    l.stock -= cant;
+
+                } else {
+                    PrecioU.setText(String.valueOf(l.getPrecio()));
+                    PrecioT.setText(String.valueOf(l.getPrecio() * cant));
+                    l.setStock(l.getStock() - cant);
                 }
-                
-            }else if(l.titulo.equals(lib) && stock == 0 && l.stock < cant){
+
+            } else if (l.getTitulo().equals(lib) && stock == 0 && l.getStock() < cant) {
                 stock = 1;
                 PrecioU.setText("---");
                 PrecioT.setText("---");
@@ -131,14 +134,14 @@ public class V_Ventas extends javax.swing.JFrame {
             }
         }
     }
-    
-    private double ObtenerT(){
+
+    private double ObtenerT() {
         double t = 0;
-        for (int i = 0; i < ventaActual.librosV.size(); i++) {
+        for (int i = 0; i < ventaActual.getLibrosV().size(); i++) {
             double p = Double.parseDouble(jTable1.getModel().getValueAt(i, 2).toString());
             t += p;
         }
-        jLabel10.setText(""+t);
+        jLabel10.setText("" + t);
         return t;
     }
 
@@ -160,7 +163,6 @@ public class V_Ventas extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         TxTF_Cantidad = new javax.swing.JTextField();
         Confirmar = new javax.swing.JButton();
-        Cerrar = new javax.swing.JButton();
         PrecioU = new javax.swing.JLabel();
         PrecioT = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -203,13 +205,6 @@ public class V_Ventas extends javax.swing.JFrame {
         Confirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ConfirmarActionPerformed(evt);
-            }
-        });
-
-        Cerrar.setText("Cerrar");
-        Cerrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CerrarActionPerformed(evt);
             }
         });
 
@@ -307,13 +302,12 @@ public class V_Ventas extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(Confirmar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Cerrar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Confirmar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel10)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -363,9 +357,7 @@ public class V_Ventas extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Confirmar)
-                    .addComponent(Cerrar))
+                .addComponent(Confirmar)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -374,57 +366,70 @@ public class V_Ventas extends javax.swing.JFrame {
 
     private void ConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmarActionPerformed
         // TODO add your handling code here:
-        ventaActual.nit = jTextField2.getText();
-        ventaActual.nombre = jTextField3.getText();
-        ventaActual.direccion = jTextField4.getText();
-        ventaActual.vendedor = usuarioActual.nombre;
-        ventaActual.total = ObtenerT();
-        ventaActual.totalSinIva = ObtenerT()/1.12;
-            
+        ventaActual.setNit(jTextField2.getText());
+        ventaActual.setNombre(jTextField3.getText());
+        ventaActual.setDireccion(jTextField4.getText());
+        ventaActual.setVendedor(usuarioActual.getNombre());
+        ventaActual.setTotal(ObtenerT());
+        ventaActual.setTotalSinIva(ObtenerT() / 1.12);
+
         Calendar fechaHoraActual = Calendar.getInstance();
-        ventaActual.fecha = (fechaHoraActual.getTime().toString());
-        
-        if(JOptionPane.showConfirmDialog(this, "Finalizar la compra")==0){
+        ventaActual.setFecha(fechaHoraActual.getTime().toString());
+
+        if (JOptionPane.showConfirmDialog(this, "Finalizar la compra") == 0) {
             ProyectoF.ventas.add(ventaActual);
+            
+            for (int i = 0; i < ventaActual.getLibrosV().size(); i++) {
+                LibroV lv = new LibroV();
+                lv.setTitulo((jTable1.getModel().getValueAt(i, 0).toString()));
+                String cantidad = ((jTable1.getModel().getValueAt(i, 1).toString()));
+                lv.setCantidad(Integer.parseInt(cantidad));
+                String subtotal = ((jTable1.getModel().getValueAt(i, 2).toString()));
+                lv.setSubtotal(Double.parseDouble(subtotal));
+                lv.setFecha(fechaHoraActual.getTime().toString());
+                ProyectoF.librosvs.add(lv);
+            }
+            
             JOptionPane.showMessageDialog(this, "Venta realizada con exito");
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Venta cancelada");
         }
     }//GEN-LAST:event_ConfirmarActionPerformed
 
-    private void CerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_CerrarActionPerformed
-
     private void AñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AñadirActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             LibroV lv = new LibroV();
-            lv.titulo = jComboBox1.getSelectedItem().toString();
-            lv.cantidad = Integer.parseInt(TxTF_Cantidad.getText());
-            lv.subtotal = (Double.parseDouble(PrecioT.getText()));
-            ventaActual.librosV.add(lv);
+            lv.setTitulo(jComboBox1.getSelectedItem().toString());
+            lv.setCantidad(Integer.parseInt(TxTF_Cantidad.getText()));
+            lv.setSubtotal(Double.parseDouble(PrecioT.getText()));
+            ventaActual.getLibrosV().add(lv);
             pTabla();
             ObtenerT();
-        }catch(Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Llene los espacios en blanco con la informacion correcta");
+        } finally{
+            Añadir.setVisible(false);
         }
     }//GEN-LAST:event_AñadirActionPerformed
 
     private void CalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CalcularActionPerformed
         // TODO add your handling code here:
-        try{
+        try {
             Precios();
-        }catch(Exception e){
+        } catch (Exception e) {
+            Añadir.setVisible(false);
             JOptionPane.showMessageDialog(this, "Llene los espacios en blanco con la informacion correcta");
+        } finally{
+            Añadir.setVisible(true);
         }
     }//GEN-LAST:event_CalcularActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Añadir;
     private javax.swing.JButton Calcular;
-    private javax.swing.JButton Cerrar;
     private javax.swing.JButton Confirmar;
     private javax.swing.JLabel PrecioT;
     private javax.swing.JLabel PrecioU;

@@ -109,10 +109,10 @@ public class ProveedorNuevo extends javax.swing.JFrame {
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         // TODO add your handling code here:
         Proveedor p = new Proveedor();
-        p.nit = jTextField1.getText();
-        p.direccion = jTextField2.getText();
-        p.telefono = jTextField3.getText();
-        p.Nombre = jTextField4.getText();
+        p.setNit(jTextField1.getText());
+        p.setDireccion(jTextField2.getText());
+        p.setTelefono(jTextField3.getText());
+        p.setNombre(jTextField4.getText());
         ProyectoF.proveedores.add(p);
         JOptionPane.showMessageDialog(this, "Proveedor creado exitosamente");
     }//GEN-LAST:event_GuardarActionPerformed

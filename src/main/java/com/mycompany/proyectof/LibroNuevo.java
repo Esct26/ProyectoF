@@ -154,11 +154,11 @@ public class LibroNuevo extends javax.swing.JFrame {
     private void Button_CrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_CrearActionPerformed
         // TODO add your handling code here:
         Libro l = new Libro();
-        l.titulo = txtF_Titulo.getText();
-        l.autor = txtF_Autor.getText();
-        l.genero = txtF_Genero.getText();
-        l.precio = Double.parseDouble(txtF_Precio.getText()); //IVA: + (Double.parseDouble(txtF_Precio.getText()) * 0.12);
-        l.stock = Integer.parseInt(txtF_Stock.getText());
+        l.setTitulo(txtF_Titulo.getText());
+        l.setAutor(txtF_Autor.getText());
+        l.setGenero(txtF_Genero.getText());
+        l.setPrecio(Double.parseDouble(txtF_Precio.getText())); //IVA: + (Double.parseDouble(txtF_Precio.getText()) * 0.12);
+        l.setStock(Integer.parseInt(txtF_Stock.getText()));
         ProyectoF.libros.add(l);
         JOptionPane.showMessageDialog(this, "Libro añadido exitosamente");
     }//GEN-LAST:event_Button_CrearActionPerformed

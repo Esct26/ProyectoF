@@ -21,28 +21,28 @@ public class V_Vendedor extends javax.swing.JFrame {
     public V_Vendedor(Usuario usuario) {
         initComponents();
         usuarioActual = usuario;
-        jLabel4.setText(usuarioActual.nombre);
-        jTextField1.setText(usuarioActual.nombre);
-        jTextField2.setText(usuarioActual.password);
+        jLabel4.setText(usuarioActual.getNombre());
+        jTextField1.setText(usuarioActual.getNombre());
+        jTextField2.setText(usuarioActual.getPassword());
         pintarTabla();
     }
     
     private void pintarTabla(){
         System.out.println("aqui");
         String encabezado[] = {"Codigo","Numero","Nombre","Password","Rol","Usuario"};
-        DefaultTableModel t = new DefaultTableModel(encabezado,usuarioActual.telefonos.size());
+        DefaultTableModel t = new DefaultTableModel(encabezado,usuarioActual.getTelefonos().size());
         jTable1.setModel(t);
         TableModel tabla = jTable1.getModel();
         
-        for(int i = 0; i<usuarioActual.telefonos.size();i++){
-            Telefono tel = usuarioActual.telefonos.get(i);
+        for(int i = 0; i<usuarioActual.getTelefonos().size();i++){
+            Telefono tel = usuarioActual.getTelefonos().get(i);
             Usuario us = usuarioActual; 
-            tabla.setValueAt(tel.codigo, i, 0);
-            tabla.setValueAt(tel.numero, i, 1);
-            tabla.setValueAt(us.nombre, i, 2);
-            tabla.setValueAt(us.password, i, 3);
-            tabla.setValueAt(us.rol, i, 4);
-            tabla.setValueAt(us.usuario, i, 5);
+            tabla.setValueAt(tel.getCodigo(), i, 0);
+            tabla.setValueAt(tel.getNumero(), i, 1);
+            tabla.setValueAt(us.getNombre(), i, 2);
+            tabla.setValueAt(us.getPassword(), i, 3);
+            tabla.setValueAt(us.getRol(), i, 4);
+            tabla.setValueAt(us.getUsuario(), i, 5);
         }
     }
 
@@ -216,8 +216,8 @@ public class V_Vendedor extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        usuarioActual.nombre = jTextField1.getText();
-        jLabel4.setText(usuarioActual.nombre);
+        usuarioActual.setNombre(jTextField1.getText());
+        jLabel4.setText(usuarioActual.getNombre());
         JOptionPane.showMessageDialog(this, "Usuario modificado exitosamente.");
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -238,7 +238,7 @@ public class V_Vendedor extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        usuarioActual.password = jTextField2.getText();
+        usuarioActual.setPassword(jTextField2.getText());
         JOptionPane.showMessageDialog(this, "Contraseña modificada exitosamente.");
     }//GEN-LAST:event_jButton4ActionPerformed
 

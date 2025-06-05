@@ -38,11 +38,11 @@ public class ConsultaL extends javax.swing.JFrame {
         
         for(int i = 0; i<ProyectoF.libros.size(); i++){
             Libro l = ProyectoF.libros.get(i);
-            tabla.setValueAt(l.titulo, i, 0);
-            tabla.setValueAt(l.autor, i, 1);
-            tabla.setValueAt(l.genero, i, 2);
-            tabla.setValueAt(l.precio, i, 3);
-            tabla.setValueAt(l.stock, i, 4);
+            tabla.setValueAt(l.getTitulo(), i, 0);
+            tabla.setValueAt(l.getAutor(), i, 1);
+            tabla.setValueAt(l.getGenero(), i, 2);
+            tabla.setValueAt(l.getPrecio(), i, 3);
+            tabla.setValueAt(l.getStock(), i, 4);
         }
     }
     
@@ -72,11 +72,11 @@ public class ConsultaL extends javax.swing.JFrame {
         Libro l = new Libro();
         JSONObject libro = (JSONObject)jsonObject.get("libro");
         System.out.println("LIBRO DEL JSON");
-        l.titulo = (String) libro.get("titulo");
-        l.autor = (String) libro.get("autor");
-        l.genero = (String) libro.get("genero");
-        l.precio = (Double) libro.get("precio");
-        l.stock = Integer.parseInt(libro.get("cantidad").toString());
+        l.setTitulo((String) libro.get("titulo"));
+        l.setAutor((String) libro.get("autor"));
+        l.setGenero((String) libro.get("genero"));
+        l.setPrecio((double) (Double) libro.get("precio"));
+        l.setStock(Integer.parseInt(libro.get("cantidad").toString()));
         ProyectoF.libros.add(l);
     }
 
@@ -247,21 +247,21 @@ public class ConsultaL extends javax.swing.JFrame {
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
         // TODO add your handling code here:
         libro = ProyectoF.libros.get(jTable1.getSelectedRow());
-        jTextField1.setText(libro.titulo);
-        jTextField2.setText(libro.autor);
-        jTextField3.setText(libro.genero);
-        jTextField4.setText(String.valueOf(libro.precio));
-        jTextField5.setText(String.valueOf(libro.stock));
+        jTextField1.setText(libro.getTitulo());
+        jTextField2.setText(libro.getAutor());
+        jTextField3.setText(libro.getGenero());
+        jTextField4.setText(String.valueOf(libro.getPrecio()));
+        jTextField5.setText(String.valueOf(libro.getStock()));
     }//GEN-LAST:event_ModificarActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         // TODO add your handling code here:
         if(libro != null){
-        libro.titulo = jTextField1.getText();
-        libro.autor = jTextField2.getText();
-        libro.genero = jTextField3.getText();
-        libro.precio = Double.parseDouble(jTextField4.getText()); //IVA: + (Double.parseDouble(jTextField4.getText()) * 0.12);
-        libro.stock = Integer.parseInt(jTextField5.getText());
+        libro.setTitulo(jTextField1.getText());
+        libro.setAutor(jTextField2.getText());
+        libro.setGenero(jTextField3.getText());
+        libro.setPrecio(Double.parseDouble(jTextField4.getText())); //IVA: + (Double.parseDouble(jTextField4.getText()) * 0.12);
+        libro.setStock(Integer.parseInt(jTextField5.getText()));
         pTabla();
         JOptionPane.showMessageDialog(this, "Libro modificado exitosamente");
         }

@@ -122,9 +122,9 @@ public class Login extends javax.swing.JFrame {
         boolean existe = false;
         
         for(Usuario u : ProyectoF.usuarios){
-            if(u.usuario.equals(usuario) && u.password.equals(password)){
+            if(u.getUsuario().equals(usuario) && u.getPassword().equals(password)){
                 existe = true;
-                if(u.rol.equals("A")){
+                if(u.getRol().equals("A")){
                     V_Admin v = new V_Admin();
                     v.setVisible(true);
                 }else{

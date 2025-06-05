@@ -50,11 +50,11 @@ public class ConsultaC extends javax.swing.JFrame {
         
         for(int i = 0; i<ProyectoF.cupones.size(); i++){
             Cupon c = ProyectoF.cupones.get(i);
-            tabla.setValueAt(c.codigo, i, 0);
-            tabla.setValueAt(c.valor, i, 1);
-            tabla.setValueAt(c.vencimineto, i, 2);
-            tabla.setValueAt(c.tipo, i, 3);
-            tabla.setValueAt(c.disponible, i, 4);
+            tabla.setValueAt(c.getCodigo(), i, 0);
+            tabla.setValueAt(c.getValor(), i, 1);
+            tabla.setValueAt(c.getVencimineto(), i, 2);
+            tabla.setValueAt(c.getTipo(), i, 3);
+            tabla.setValueAt(c.getDisponible(), i, 4);
         }
     }
     
@@ -75,11 +75,11 @@ public class ConsultaC extends javax.swing.JFrame {
             while(linea!=null){
                 String[] cupon = linea.split("\\|");
                 Cupon c = new Cupon();
-                c.codigo = cupon[0].trim();
-                c.valor = Double.parseDouble(cupon[1].trim());
-                c.vencimineto = cupon[2].trim();
-                c.tipo = cupon[3].trim();
-                c.disponible = cupon[4].trim();
+                c.setCodigo(cupon[0].trim());
+                c.setValor(Double.parseDouble(cupon[1].trim()));
+                c.setVencimineto(cupon[2].trim());
+                c.setTipo(cupon[3].trim());
+                c.setDisponible(cupon[4].trim());
                 contenido.add(c);
                 linea = bloque.readLine();
             }
@@ -276,10 +276,10 @@ public class ConsultaC extends javax.swing.JFrame {
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
         // TODO add your handling code here:
         cupon = ProyectoF.cupones.get(jTable1.getSelectedRow());
-        jTextField1.setText(cupon.codigo);
-        jTextField2.setText(String.valueOf(cupon.valor));
-        jTextField3.setText(String.valueOf(cupon.vencimineto));
-        if(cupon.tipo.equals("Porcentage")){
+        jTextField1.setText(cupon.getCodigo());
+        jTextField2.setText(String.valueOf(cupon.getValor()));
+        jTextField3.setText(String.valueOf(cupon.getVencimineto()));
+        if(cupon.getTipo().equals("Porcentage")){
             jComboBox1.setSelectedIndex(0);
         }else{
             jComboBox1.setSelectedIndex(1);
@@ -290,15 +290,15 @@ public class ConsultaC extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(cupon != null){
             LocalDate d;
-            cupon.codigo = jTextField1.getText();
-            cupon.valor = Double.parseDouble(jTextField2.getText());
+            cupon.setCodigo(jTextField1.getText());
+            cupon.setValor(Double.parseDouble(jTextField2.getText()));
             d = LocalDate.parse(jTextField3.getText(), formato());
-            cupon.vencimineto = d.toString();
+            cupon.setVencimineto(d.toString());
             String rol = jComboBox1.getSelectedItem().toString();
             if(rol.equals("Porcentage")){
-                cupon.tipo="Porcentage";
+                cupon.setTipo("Porcentage");
             }else{
-                cupon.tipo = "Monto F";
+                cupon.setTipo("Monto F");
         }
         pTabla();
         JOptionPane.showMessageDialog(this, "Cupon modificado exitosamente");
@@ -318,11 +318,11 @@ public class ConsultaC extends javax.swing.JFrame {
             ArrayList<Cupon> cupon = leer(selectedFile.getName());
             cupon.forEach((c)->{
             Cupon cup = new Cupon();
-            cup.codigo = (c.codigo);
-            cup.valor = c.valor;
-            cup.vencimineto = (c.vencimineto);
-            cup.tipo = c.tipo;
-            cup.disponible = c.disponible;
+            cup.setCodigo(c.getCodigo());
+            cup.setValor(c.getValor());
+            cup.setVencimineto(c.getVencimineto());
+            cup.setTipo(c.getTipo());
+            cup.setDisponible(c.getDisponible());
             ProyectoF.cupones.add(cup);
             });
             pTabla();

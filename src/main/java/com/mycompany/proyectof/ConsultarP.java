@@ -31,10 +31,10 @@ public class ConsultarP extends javax.swing.JFrame {
         
         for(int i = 0; i<ProyectoF.proveedores.size(); i++){
             Proveedor p = ProyectoF.proveedores.get(i);
-            tabla.setValueAt(p.nit, i, 0);
-            tabla.setValueAt(p.direccion, i, 1);
-            tabla.setValueAt(p.telefono, i, 2);
-            tabla.setValueAt(p.Nombre, i, 3);
+            tabla.setValueAt(p.getNit(), i, 0);
+            tabla.setValueAt(p.getDireccion(), i, 1);
+            tabla.setValueAt(p.getTelefono(), i, 2);
+            tabla.setValueAt(p.getNombre(), i, 3);
             
         }
     }
@@ -191,19 +191,19 @@ public class ConsultarP extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         proveedor = ProyectoF.proveedores.get(jTable1.getSelectedRow());
-        jTextField1.setText(proveedor.nit);
-        jTextField2.setText(proveedor.direccion);
-        jTextField3.setText(proveedor.telefono);
-        jTextField4.setText(proveedor.telefono);
+        jTextField1.setText(proveedor.getNit());
+        jTextField2.setText(proveedor.getDireccion());
+        jTextField3.setText(proveedor.getTelefono());
+        jTextField4.setText(proveedor.getTelefono());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         if(proveedor != null){
-        proveedor.nit = jTextField1.getText();
-        proveedor.direccion = jTextField2.getText();
-        proveedor.telefono = jTextField3.getText();
-        proveedor.Nombre = jTextField4.getText();;
+        proveedor.setNit(jTextField1.getText());
+        proveedor.setDireccion(jTextField2.getText());
+        proveedor.setTelefono(jTextField3.getText());
+        proveedor.setNombre(jTextField4.getText());;
         pTabla();
         JOptionPane.showMessageDialog(this, "Proveedor modificado exitosamente");
         }

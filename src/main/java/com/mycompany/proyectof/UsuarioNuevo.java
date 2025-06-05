@@ -176,20 +176,20 @@ public class UsuarioNuevo extends javax.swing.JFrame {
     private void Crear_UNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Crear_UNActionPerformed
         // TODO add your handling code here:
         Usuario u = new Usuario();
-        u.nombre = txtF_Nombre.getText();
-        u.password = txtF_Password.getText();
+        u.setNombre(txtF_Nombre.getText());
+        u.setPassword(txtF_Password.getText());
         
         String rol = jComboBox1.getSelectedItem().toString();
         if(rol.equals("Administrador")){
-            u.rol="A";
+            u.setRol("A");
         }else{
-            u.rol = "V";
+            u.setRol("V");
         }
         
-        u.usuario = txtF_Usuario.getText();
+        u.setUsuario(txtF_Usuario.getText());
         
-        boolean r = requisitos(u.password);
-        if(u.password.length() >= 6 && r == true){
+        boolean r = requisitos(u.getPassword());
+        if(u.getPassword().length() >= 6 && r == true){
                 ProyectoF.usuarios.add(u);
                 JOptionPane.showMessageDialog(this, "Usuario creado exitosamente");
                 this.dispose();

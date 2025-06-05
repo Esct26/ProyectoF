@@ -164,17 +164,17 @@ public class CuponNuevo extends javax.swing.JFrame {
         LocalDate d;
         String rol = jComboBox1.getSelectedItem().toString();
         if(rol.equals("Porcentage")){
-            c.tipo="Porcentage";
+            c.setTipo("Porcentage");
         }else{
-            c.tipo = "Monto F";
+            c.setTipo("Monto F");
         }
         
-        c.codigo = jTextField1.getText();
-        c.valor = Double.parseDouble(jTextField2.getText());
+        c.setCodigo(jTextField1.getText());
+        c.setValor(Double.parseDouble(jTextField2.getText()));
         
         d = LocalDate.parse(jTextField3.getText(), formato());
-        c.vencimineto = d.toString();
-        c.disponible = "Disponible";
+        c.setVencimineto(d.toString());
+        c.setDisponible("Disponible");
         ProyectoF.cupones.add(c);
         JOptionPane.showMessageDialog(this, "Cupon creado exitosamente");
     }//GEN-LAST:event_CrearActionPerformed

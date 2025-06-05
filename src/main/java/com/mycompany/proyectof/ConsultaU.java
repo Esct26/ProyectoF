@@ -45,10 +45,10 @@ public class ConsultaU extends javax.swing.JFrame {
         
         for(int i = 0; i<ProyectoF.usuarios.size(); i++){
             Usuario u = ProyectoF.usuarios.get(i);
-            tabla.setValueAt(u.nombre, i, 0);
-            tabla.setValueAt(u.usuario, i, 1);
-            tabla.setValueAt(u.password, i, 2);
-            tabla.setValueAt(u.rol, i, 3);
+            tabla.setValueAt(u.getNombre(), i, 0);
+            tabla.setValueAt(u.getUsuario(), i, 1);
+            tabla.setValueAt(u.getPassword(), i, 2);
+            tabla.setValueAt(u.getRol(), i, 3);
             
         }
     }
@@ -78,10 +78,10 @@ public class ConsultaU extends javax.swing.JFrame {
                             .getTextContent();
                     
                     Usuario us = new Usuario();
-                    us.nombre = nombre;
-                    us.password = password;
-                    us.rol = rol;
-                    us.usuario = usua;
+                    us.setNombre(nombre);
+                    us.setPassword(password);
+                    us.setRol(rol);
+                    us.setUsuario(usua);
                     ProyectoF.usuarios.add(us);
                     
                 }
@@ -268,20 +268,20 @@ public class ConsultaU extends javax.swing.JFrame {
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
         // TODO add your handling code here:
         if(usuario != null){
-        usuario.nombre = jTextField1.getText();
-        usuario.password = jTextField3.getText();
+        usuario.setNombre(jTextField1.getText());
+        usuario.setPassword(jTextField3.getText());
         
         String rol = jComboBox1.getSelectedItem().toString();
         if(rol.equals("Administrador")){
-            usuario.rol="A";
+            usuario.setRol("A");
         }else{
-            usuario.rol = "V";
+            usuario.setRol("V");
         }
         
-        usuario.usuario = jTextField2.getText();
+        usuario.setUsuario(jTextField2.getText());
         
-        boolean r = requisitos(usuario.password);
-        if(usuario.password.length() >= 6 && r == true){
+        boolean r = requisitos(usuario.getPassword());
+        if(usuario.getPassword().length() >= 6 && r == true){
                 pTabla();
                 JOptionPane.showMessageDialog(this, "Usuario modificado exitosamente");
             }else{
@@ -293,11 +293,11 @@ public class ConsultaU extends javax.swing.JFrame {
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
         // TODO add your handling code here:
         usuario = ProyectoF.usuarios.get(jTable1.getSelectedRow());
-        jTextField1.setText(usuario.nombre);
-        jTextField2.setText(usuario.usuario);
-        jTextField3.setText(usuario.password);
+        jTextField1.setText(usuario.getNombre());
+        jTextField2.setText(usuario.getUsuario());
+        jTextField3.setText(usuario.getPassword());
         
-        if(usuario.rol.equals("A")){
+        if(usuario.getRol().equals("A")){
             jComboBox1.setSelectedIndex(0);
         }else{
             jComboBox1.setSelectedIndex(1);

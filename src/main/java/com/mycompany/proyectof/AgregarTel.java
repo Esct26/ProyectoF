@@ -89,9 +89,9 @@ public class AgregarTel extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Telefono t = new Telefono();
-        t.codigo = jTextField1.getText();
-        t.numero = jTextField2.getText();
-        usuarioActual.telefonos.add(t);
+        t.setCodigo(jTextField1.getText());
+        t.setNumero(jTextField2.getText());
+        usuarioActual.getTelefonos().add(t);
         JOptionPane.showMessageDialog(this, "Telefono agregado exitosamente");
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
