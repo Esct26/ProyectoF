@@ -3,11 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.proyectof;
+
+import java.io.Serializable;
+
 /**
  *
  * @author esct
  */
-public class Cupon {
+public class Cupon implements Serializable{
 
     private String codigo;
     private double valor;

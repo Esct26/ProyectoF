@@ -4,11 +4,13 @@
  */
 package com.mycompany.proyectof;
 
+import java.io.Serializable;
+
 /**
  *
  * @author esct
  */
-public class LibroV {
+public class LibroV implements Serializable{
 
     
 

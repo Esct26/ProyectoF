@@ -4,11 +4,13 @@
  */
 package com.mycompany.proyectof;
 
+import java.io.Serializable;
+
 /**
  *
  * @author esct
  */
-public class Libro {
+public class Libro implements Serializable{
 
     private String titulo;
     private String autor;

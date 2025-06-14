@@ -4,17 +4,112 @@
  */
 package com.mycompany.proyectof;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author esct
  */
 public class V_Admin extends javax.swing.JFrame {
 
+    Programa prog = new Programa();
     /**
      * Creates new form V_Admin
      */
     public V_Admin() {
         initComponents();
+    }
+    
+    public static void escribirArchivoBinario(Object o, String ruta){
+        try{
+            FileOutputStream archivo = new FileOutputStream(ruta);
+            ObjectOutputStream escribe = new ObjectOutputStream(archivo);
+            escribe.writeObject(o);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public static Object leerArchivoBinario(String ruta){
+        try{
+            FileInputStream archivo = new FileInputStream(ruta);
+            ObjectInputStream lee = new ObjectInputStream(archivo);
+            return lee.readObject();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public static void InsertarDatos(){
+        Programa leeido = (Programa)leerArchivoBinario("Info.progra");
+        
+        for(Usuario u : leeido.getUsuar()){
+            Usuario us = new Usuario();
+            us.setNombre(u.getNombre());
+            us.setPassword(u.getPassword());
+            us.setRol(u.getRol());
+            us.setUsuario(u.getUsuario());
+            ProyectoF.usuarios.add(us);
+        }
+        
+        for(Libro l : leeido.getLibr()){
+            Libro li = new Libro();
+            li.setTitulo(l.getTitulo());
+            li.setGenero(l.getGenero());
+            li.setAutor(l.getAutor());
+            li.setPrecio(l.getPrecio());
+            li.setStock(l.getStock());
+            ProyectoF.libros.add(li);
+        }
+        
+        for(Cupon c : leeido.getCupo()){
+            Cupon cu = new Cupon();
+            cu.setCodigo(c.getCodigo());
+            cu.setTipo(c.getTipo());
+            cu.setValor(c.getValor());
+            cu.setVencimineto(c.getVencimineto());
+            cu.setDisponible(c.getDisponible());
+            ProyectoF.cupones.add(cu);
+        }
+        
+        for(Venta v : leeido.getVent()){
+            Venta ve = new Venta();
+            ve.setNit(v.getNit());
+            ve.setNombre(v.getNombre());
+            ve.setDireccion(v.getDireccion());
+            ve.setVendedor(v.getVendedor());
+            ve.setTotal(v.getTotal());
+            ve.setTotalSinIva(v.getTotalSinIva());
+            ve.setFecha(v.getFecha());
+            ve.setLibrosV(v.getLibrosV());
+            ProyectoF.ventas.add(ve);
+        }
+        
+        for(Proveedor p: leeido.getProvee()){
+            Proveedor pr = new Proveedor();
+            pr.setNit(p.getNit());
+            pr.setDireccion(p.getDireccion());
+            pr.setTelefono(p.getTelefono());
+            pr.setNombre(p.getNombre());
+            ProyectoF.proveedores.add(pr);
+        }
+        
+        for(LibroV lv : leeido.getLibrv()){
+            LibroV liv = new LibroV();
+            liv.setTitulo(lv.getTitulo());
+            liv.setCantidad(lv.getCantidad());
+            liv.setSubtotal(lv.getSubtotal());
+            liv.setFecha(lv.getFecha());
+            ProyectoF.librosvs.add(liv);
+        }
     }
 
     /**
@@ -27,6 +122,8 @@ public class V_Admin extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        LeerArchivo = new javax.swing.JButton();
+        EscribirArchivo = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -47,6 +144,20 @@ public class V_Admin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("Bienvenido administrador");
+
+        LeerArchivo.setText("Leer");
+        LeerArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeerArchivoActionPerformed(evt);
+            }
+        });
+
+        EscribirArchivo.setText("Escribir");
+        EscribirArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EscribirArchivoActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Usuario");
 
@@ -155,16 +266,27 @@ public class V_Admin extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabel1)
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(75, 75, 75)
+                        .addComponent(LeerArchivo)
+                        .addGap(18, 18, 18)
+                        .addComponent(EscribirArchivo)))
+                .addContainerGap(155, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jLabel1)
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LeerArchivo)
+                    .addComponent(EscribirArchivo))
+                .addGap(84, 84, 84))
         );
 
         pack();
@@ -231,9 +353,100 @@ public class V_Admin extends javax.swing.JFrame {
         clv.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void LeerArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeerArchivoActionPerformed
+        // TODO add your handling code here:
+        InsertarDatos();
+        
+    }//GEN-LAST:event_LeerArchivoActionPerformed
+
+    private void EscribirArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EscribirArchivoActionPerformed
+        // TODO add your handling code here:
+        
+        ArrayList<Usuario> usuario = new ArrayList<>();
+        for(Usuario u : ProyectoF.usuarios){
+            Usuario us = new Usuario();
+            us.setNombre(u.getNombre());
+            us.setPassword(u.getPassword());
+            us.setRol(u.getRol());
+            us.setUsuario(u.getUsuario());
+            us.setTelefonos(u.getTelefonos());
+            usuario.add(us);
+        }
+        
+        ArrayList<Libro> libro = new ArrayList<>();
+        for(Libro l : ProyectoF.libros){
+            Libro li = new Libro();
+            li.setTitulo(l.getTitulo());
+            li.setAutor(l.getAutor());
+            li.setGenero(l.getGenero());
+            li.setPrecio(l.getPrecio());
+            li.setStock(l.getStock());
+            libro.add(li);
+        }
+        
+        ArrayList<Cupon> cupon = new ArrayList<>();
+        for(Cupon c : ProyectoF.cupones){
+            Cupon cu = new Cupon();
+            cu.setCodigo(c.getCodigo());
+            cu.setValor(c.getValor());
+            cu.setVencimineto(c.getVencimineto());
+            cu.setTipo(c.getTipo());
+            cu.setDisponible(c.getDisponible());
+            cupon.add(cu);
+        }
+        
+        ArrayList<Venta> venta = new ArrayList<>();
+        for(Venta v : ProyectoF.ventas){
+            Venta ve = new Venta();
+            ve.setNit(v.getNit());
+            ve.setNombre(v.getNombre());
+            ve.setDireccion(v.getDireccion());
+            ve.setVendedor(v.getVendedor());
+            ve.setTotal(v.getTotal());
+            ve.setTotalSinIva(v.getTotalSinIva());
+            ve.setFecha(v.getFecha());
+            ve.setLibrosV(v.getLibrosV());
+            venta.add(ve);
+        }
+        
+        ArrayList<Proveedor> proveedor = new ArrayList<>();
+        for(Proveedor p : ProyectoF.proveedores){
+            Proveedor pr = new Proveedor();
+            pr.setNit(p.getNit());
+            pr.setNombre(p.getNombre());
+            pr.setTelefono(p.getTelefono());
+            pr.setDireccion(p.getDireccion());
+            proveedor.add(pr);
+        }
+        
+        ArrayList<LibroV> librov = new ArrayList<>();
+        for(LibroV lv : ProyectoF.librosvs){
+            LibroV liv = new LibroV();
+            liv.setTitulo(lv.getTitulo());
+            liv.setCantidad(lv.getCantidad());
+            liv.setSubtotal(lv.getSubtotal());
+            liv.setFecha(lv.getFecha());
+            librov.add(liv);
+        }
+        
+        prog.setUsuar(usuario);
+        prog.setLibr(libro);
+        prog.setCupo(cupon);
+        prog.setVent(venta);
+        prog.setProvee(proveedor);
+        prog.setLibrv(librov);
+        
+        if (JOptionPane.showConfirmDialog(this, "Desea Guardar los cambios") == 0){
+            escribirArchivoBinario(prog, "Info.progra");
+            JOptionPane.showMessageDialog(this, "Guardado con exito");
+        }
+    }//GEN-LAST:event_EscribirArchivoActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EscribirArchivo;
+    private javax.swing.JButton LeerArchivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

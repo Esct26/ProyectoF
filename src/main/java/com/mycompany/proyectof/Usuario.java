@@ -4,13 +4,14 @@
  */
 package com.mycompany.proyectof;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author esct
  */
-public class Usuario {
+public class Usuario implements Serializable{
     private String nombre;
     private String password;
     private String rol;

@@ -4,11 +4,13 @@
  */
 package com.mycompany.proyectof;
 
+import java.io.Serializable;
+
 /**
  *
  * @author esct
  */
-public class Telefono {
+public class Telefono implements Serializable{
     private String codigo;
     private String numero;
 
